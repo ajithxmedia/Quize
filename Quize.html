@@ -1,0 +1,96 @@
+<html>
+    <head>
+
+        <script>
+
+            (function(){
+
+                
+            // Function Constructor
+            function Question(question , answer , correct){
+                this.question = question;
+                this.answer = answer;
+                this.correct  = correct;
+            }
+
+
+            // Create Questions Display Method
+            Question.prototype.displayQuestion = function(){
+                console.log(this.question);
+                for(i = 0; i<this.answer.length; i++){
+                    console.log(i+':'+this.answer[i]);
+                }
+            }
+
+
+            // Check Answer Method
+            Question.prototype.checkAnswer = function(ans,keepScore){
+               var sc;
+               if(ans == this.correct){
+                   sc = keepScore(true);
+                   console.log('Correct Answer');
+                   console.log('--------------------------------------');
+               }
+               else{
+                   sc = keepScore(false);
+                   console.log('Wrong Answer Please Try Again');
+                   console.log('--------------------------------------');
+               }
+               this.displayScore(sc);
+
+            }
+
+            // Score Display
+            Question.prototype.displayScore = function(sc){
+                console.log('Score IS : '+sc);
+                console.log('------------------------')
+            }
+
+            // Question Create
+            var question1 = new Question('Javascript is a Coolest programming language',['Yes','No'],0);
+            var question2 = new Question('What is Color of Apple',['blue','red','yellow'],1);
+            var question3 = new Question('Javascript is a Object Oriented programming language',['Yes','No'],0);
+
+            // Questions Push To Array
+            var questions = [question1,question2,question3];           
+            
+            function score(){
+                var scr = 0;
+                return function(correct){
+                    if(correct){
+                    scr++;
+                    }
+                    return scr;
+                }
+            }
+
+            var keepScore = score();
+
+            function questionRepeat(){
+                // Random Number Generate
+                var random = Math.floor(Math.random()*questions.length);
+
+                
+                // question display function call
+                questions[random].displayQuestion(); 
+
+                // Answer Prompt Dialog Box
+                var ans = prompt('Choose The Correct Answer');
+
+                if(ans !== 'exit'){                 
+                    // Answer Function Call
+                    questions[random].checkAnswer(parseInt(ans),keepScore);
+                    questionRepeat();
+                }
+            }
+           console.log(question1);
+            questionRepeat();
+            })();
+        </script>
+    </head>
+    <body>
+
+        <h3>Coding Challenge - 6</h3>
+
+    </body>
+</html>
